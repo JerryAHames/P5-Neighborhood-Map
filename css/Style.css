@@ -1,0 +1,24 @@
+body {
+  font-family: "Roboto Slab", serif;
+  color: #000066;
+  font-weight: 400;
+  height: 100%;
+}
+
+html {
+height: 100%;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /*z-index: 0; Bottom Layer*/
+}
+
+.search {
+  background: white;
+  height: 100%;
+}
