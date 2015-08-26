@@ -23,7 +23,7 @@
           <button data-bind="click: filterSelectedLocations">Filter</button>
         </div>
       </div>
-      <div class="list menu search" data-bind="click: MainClick, css: {menuopen: MenuOpen}" >
+      <div class="menu search" data-bind="click: MainClick, css: {menuopen: MenuOpen}" >
         <ul class="search" data-bind="foreach: locations">
           <li data-bind="text: Name, title: ToolTip, click: $parent.updateSelectedLocation, visible: Visible, css: {selected: Selected}" ></li>
         </ul>
