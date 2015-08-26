@@ -1,12 +1,32 @@
+html {
+height: 100%;
+}
+
 body {
   font-family: "Roboto Slab", serif;
   color: #000066;
   font-weight: 400;
   height: 100%;
+  font-size: 14px;
 }
 
-html {
-height: 100%;
+input.rounded {
+  margin: 5px;
+  border: 1px solid #000066;
+
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  padding-left: 5px;
+  font-size: 18px;
+}
+
+button {
+  font-size: 16px;
+}
+
+.filterinput {
+  width: 75%;
 }
 
 #map {
@@ -15,10 +35,98 @@ height: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  /*z-index: 0; Bottom Layer*/
+  z-index: 1;
 }
 
-.search {
-  background: white;
-  height: 100%;
+li.selected {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.list-header {
+  width: 50%;
+  margin: 0 auto;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.hamburger {
+  display: none;
+  width: 24px;
+  height: 24px;
+}
+
+.menu {
+  width: 450px;
+}
+
+.search-panel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+}
+
+@media screen and (min-width: 500px)
+{
+  .search-panel {
+    background-color: rgb(100, 256, 256);
+    background-color: rgba(256, 256, 256, .8);
+    border-style: solid;
+    border-color: #000066;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    width: 450px;
+  }
+
+  .hamburger-icon {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 499px)
+{
+  .menu {
+    width: 100%;
+
+    transform: translate(0, -1000px);
+    transition: transform 0.0s ease;
+  }
+
+  .menuopen {
+    transform: translate(0, 0);
+    transition: tranform 0.3s ease;
+  }
+
+  .hamburger-icon {
+    display: block;
+    position: absolute;
+    top: 10;
+    left: 10;
+    z-index: 11;
+  }
+
+  .hamburger {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .search-panel {
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+  .search {
+    background-color: rgb(100, 256, 256);
+    background-color: rgba(256, 256, 256, .8);
+    z-index: 2;
+  }
+  .search ul {
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 }

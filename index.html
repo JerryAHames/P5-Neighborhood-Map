@@ -3,29 +3,30 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
     <link rel="stylesheet" href="css/Style.css">
     <title>Project 5: Neighborhood Map Project</title>
   </head>
   <body>
-    <div id="map"></div>
-    <div class="container">
-      <div class="row">
-        <div class="search col-md-2">
-          <div data-bind="with: currentLocation">
-            <input data-bind="value: street" />
-            <input data-bind="value: city" />
-            <button data-bind="click: $parent.updateCurrentLocation">Search</button>
-          </div>
-          <div class="list">
-            <ul data-bind="foreach: locations">
-              <li data-bind="text: Name, click: $parent.updateCurrentLocation"></li>
-            </ul>
-          </div>
+    <div id="map" data-bind="click: MainClick"></div>
+    <div class="search-panel">
+      <div class="search-header search">
+        <div class="hamburger-icon">
+          <svg class="hamburger" data-bind="click: MenuClick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#000066">
+            <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z" />
+          </svg>
         </div>
-        <div class="col-md-10">
+        <div class="list-header">Places to Visit</div>
+        <div class="filter-input">
+          <input data-bind="value: Filter, enterkey: filterSelectedLocations" class="rounded filterinput" />
+          <button data-bind="click: filterSelectedLocations">Filter</button>
         </div>
+      </div>
+      <div class="list menu search" data-bind="click: MainClick, css: {menuopen: MenuOpen}" >
+        <ul class="search" data-bind="foreach: locations">
+          <li data-bind="text: Name, click: $parent.updateSelectedLocation, visible: Visible, css: {selected: Selected}"></li>
+        </ul>
       </div>
     </div>
     <script src="js/jQuery.js"></script>
