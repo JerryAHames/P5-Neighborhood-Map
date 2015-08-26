@@ -7,6 +7,15 @@ You will develop a single-page application featuring a map of your neighborhood 
 ## Comments
 There are several museums and great places to eat in my hometown. I selected several of these places as the locations I'd like to visit.
 
+Clicking on an item in the list will make the item bold, and slightly bigger, and will select the marker in the map. The map marker will turn blue and the info window will popup with the title, a google streetview image, if it's available, and the short description from a wikipedia article, if it's available.
+
+### Search
+The user has the ability to search the list of locations by typing into the text box and either hitting the <Enter> key or clicking the [Filter] button. Filtering the list will remove any items that don't match the search criteria and removing the corresponding marker from the map.
+
+To clear the filter, delete the text in the input box and press the <Enter> key or click [Filter] again.
+
+The search will search the name of the location and the tags associated with each location (Food, or Museum for instance).
+
 ## Rubric
 <a href="https://www.udacity.com/course/viewer#!/c-nd001/l-2711658591/m-2684328537">Rubric</a>
 
