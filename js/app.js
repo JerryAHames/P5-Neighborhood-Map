@@ -18,14 +18,14 @@ var Location = function(name, street, city, tags){
   this.Wiki = {
     Text: ko.observable(""),
     URL: ko.observable("")
-  }
+  };
   this.ToolTip = ko.computed(function() {
     var toReturn = "";
     for(var i = 0; i < self.Tags().length; i++)
       toReturn = toReturn + "|" + self.Tags()[i];
     return toReturn;
   });
-}
+};
 /************\
 | ViewModels |
 \***********/
@@ -85,7 +85,7 @@ var ViewModel = function() {
     for(var i = 0; i < self.locations().length; i++) {
       self.AddMarker(self.locations()[i], count);
 
-      if(i % 3 == 0)
+      if(i % 3 === 0)
         count++; //see comment in AddMarker for count's purpose
     }
   };
@@ -103,17 +103,16 @@ var ViewModel = function() {
     var f = function(loc) {
       return function() {
         self.addMarkerForAddress(loc);
-      }
+      };
     };
     setTimeout(f(location), 200 * timeMult);
-  }
+  };
 
   //When the user clicks on an item in the list box, update the currently selected location.
   this.updateSelectedLocation = function(loc) {
     //First, if we already have an old selected location, deselect it.
     //Then Lets close the info window.
-    if(self.currentLocation() !== null
-      && self.currentLocation().Marker() !== null)
+    if(self.currentLocation() !== null  && self.currentLocation().Marker() !== null)
     {
       //When we close the old location, we don't want to show the info window anymore.
       if(self.currentLocation().InfoWindow() !== null)
@@ -126,8 +125,7 @@ var ViewModel = function() {
     //Update the current location.
     self.currentLocation(loc);
     //If there is a current location, lets select it and display the info window.
-    if(loc !== null
-      && loc.Marker() !== null){
+    if(loc !== null && loc.Marker() !== null){
       //Update the marker for the new current location.
       self.currentLocation().Marker().setIcon(selectedPin);
       self.currentLocation().Selected(true);
@@ -166,12 +164,12 @@ var ViewModel = function() {
 
     //Show or hide as necessary
     loc.Visible(vis);
-    if(loc.Selected() == true)
+    if(loc.Selected() === true)
       self.updateSelectedLocation(null);
     //If the location is not visible, hide the marker.
-    if(loc.Marker() != null)
+    if(loc.Marker() !== null)
       loc.Marker().setVisible(vis);
-  }
+  };
 
   this.addMarkerForAddress = function(loc) {
     //Lets ask the geocoder for the data we need to plot the marker
@@ -229,7 +227,7 @@ var ViewModel = function() {
   this.LoadWikiArticle = function(loc) {
 
     var finalURL = self.WikipediaAPIURL.replace("$name$", loc.Name());
-    var wikiRequestTimeout = setTimeout(function() {$loc.WikiText.text("failed to get wikipedia resources");}, 8000);
+    var wikiRequestTimeout = setTimeout(function() {loc.WikiText.text("failed to get wikipedia resources");}, 8000);
     $.ajax({
       url: finalURL,
       dataType: 'jsonp',
@@ -238,7 +236,7 @@ var ViewModel = function() {
       {
         clearTimeout(wikiRequestTimeout);
 
-        if(data[2][0] !== null && data[2][0] != undefined) {
+        if(data[2][0] !== null && data[2][0] !== undefined) {
           loc.Wiki.Text(data[2][0]);
           loc.Wiki.URL(data[3][0]);
         }
@@ -249,7 +247,7 @@ var ViewModel = function() {
       },
       //We've failed to find a wikipedia entry. That's ok, some of these places are probably pretty great.
       //Let's just say there isn't a wikipedia entry and move along.
-      error: function(xhr, status, errortxt)
+      error: function()
       {
         clearTimeout(wikiRequestTimeout);
 
@@ -257,7 +255,7 @@ var ViewModel = function() {
 
         loc.InfoWindow().content = loc.InfoWindow().content.replace("$imgurl$", self.GetStreetViewImage(loc)).replace("$wiki$", loc.Wiki.Text()).replace("$wikiurl$", loc.Wiki.URL());
       },
-      fail: function(data)
+      fail: function()
       {
         clearTimeout(wikiRequestTimeout);
 
@@ -265,7 +263,7 @@ var ViewModel = function() {
 
         loc.InfoWindow().content = loc.InfoWindow().content.replace("$imgurl$", self.GetStreetViewImage(loc)).replace("$wiki$", loc.Wiki.Text()).replace("$wikiurl$", loc.Wiki.URL());
       },
-    })
+    });
   };
   this.GetStreetViewImage = function(loc) {
     return 'https://maps.googleapis.com/maps/api/streetview?size=200x200&location=' + loc.Marker().position + '';
@@ -273,7 +271,7 @@ var ViewModel = function() {
 
   //Add all the default locations.
   this.addLocations();
-}
+};
 
 //As a user enhancement, lets allow the user to hit the "Enter" key from the
 //filter text box to filter the list of locations. To do that we need to add
