@@ -15,6 +15,10 @@ var Location = function(name, street, city, tags){
   this.Selected = ko.observable(false);
   this.InfoWindow = ko.observable(null);
   this.WikiText = ko.observable("");
+  this.Wiki = {
+    Text: ko.observable(""),
+    URL: ko.observable("")
+  }
   this.ToolTip = ko.computed(function() {
     var toReturn = "";
     for(var i = 0; i < self.Tags().length; i++)
@@ -187,7 +191,7 @@ var ViewModel = function() {
         // or hover over a pin on a map. They usually contain more information
         // about a location.
         loc.InfoWindow(new google.maps.InfoWindow({
-          content: "<h3>" + loc.Name() + "</h3><img src='$url$'><br />$wiki$",
+          content: '<h3>' + loc.Name() + '</h3><img src="$imgurl$"><br />$wiki$',
           maxWidth: 250
         }));
 
@@ -235,12 +239,13 @@ var ViewModel = function() {
         clearTimeout(wikiRequestTimeout);
 
         if(data[2][0] !== null && data[2][0] != undefined) {
-          loc.WikiText(data[2][0]);
+          loc.Wiki.Text(data[2][0]);
+          loc.Wiki.URL(data[3][0]);
         }
         else {
-          loc.WikiText("No Wikipedia entry available");
+          loc.Wiki.Text("No Wikipedia entry available");
         }
-        loc.InfoWindow().content = loc.InfoWindow().content.replace("$url$", self.GetStreetViewImage(loc)).replace("$wiki$", loc.WikiText());
+        loc.InfoWindow().content = loc.InfoWindow().content.replace("$imgurl$", self.GetStreetViewImage(loc)).replace("$wiki$", loc.Wiki.Text()).replace("$wikiurl$", loc.Wiki.URL());
       },
       //We've failed to find a wikipedia entry. That's ok, some of these places are probably pretty great.
       //Let's just say there isn't a wikipedia entry and move along.
@@ -248,9 +253,9 @@ var ViewModel = function() {
       {
         clearTimeout(wikiRequestTimeout);
 
-        loc.WikiText("No Wikipedia entry available");
+        loc.Wiki.Text("No Wikipedia entry available");
 
-        loc.InfoWindow().content = loc.InfoWindow().content.replace("$url$", self.GetStreetViewImage(loc)).replace("$wiki$", loc.WikiText());
+        loc.InfoWindow().content = loc.InfoWindow().content.replace("$imgurl$", self.GetStreetViewImage(loc)).replace("$wiki$", loc.Wiki.Text()).replace("$wikiurl$", loc.Wiki.URL());
       },
       fail: function(data)
       {
@@ -258,7 +263,7 @@ var ViewModel = function() {
 
         loc.WikiText("No Wikipedia entry available");
 
-        loc.InfoWindow().content = loc.InfoWindow().content.replace("$url$", self.GetStreetViewImage(loc)).replace("$wiki$", loc.WikiText());
+        loc.InfoWindow().content = loc.InfoWindow().content.replace("$imgurl$", self.GetStreetViewImage(loc)).replace("$wiki$", loc.Wiki.Text()).replace("$wikiurl$", loc.Wiki.URL());
       },
     })
   };
