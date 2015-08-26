@@ -193,7 +193,7 @@ var ViewModel = function() {
                 }));
 
                 // This code adds text to the map marker when the pin is clicked.
-                google.maps.event.addListener(loc.Marker(), 'click', function() {
+                google.maps.event.addListener(loc.Marker(), 'mousedown', function() {
                     self.updateSelectedLocation(loc);
                 });
 
