@@ -28,6 +28,7 @@ var Location = function(name, street, city, tags){
 
 var ViewModel = function() {
   var self = this;
+  this.WikipediaAPIURL = "http://en.wikipedia.org/w/api.php?action=opensearch&search=$name$&format=json&callback=wikiCallback";
 
   this.locations = ko.observableArray([]); //Array of all the locations we have.
   this.currentLocation = ko.observable(null); //Setup the current location
@@ -223,8 +224,7 @@ var ViewModel = function() {
 
   this.LoadWikiArticle = function(loc) {
 
-    var finalURL = "http://en.asdfwikipedia.org/w/api.php?action=opensearch&search=" + loc.Name()
-                  + "&format=json&callback=wikiCallback";
+    var finalURL = self.WikipediaAPIURL.replace("$name$", loc.Name());
     var wikiRequestTimeout = setTimeout(function() {$loc.WikiText.text("failed to get wikipedia resources");}, 8000);
     $.ajax({
       url: finalURL,
@@ -242,6 +242,8 @@ var ViewModel = function() {
         }
         loc.InfoWindow().content = loc.InfoWindow().content.replace("$url$", self.GetStreetViewImage(loc)).replace("$wiki$", loc.WikiText());
       },
+      //We've failed to find a wikipedia entry. That's ok, some of these places are probably pretty great.
+      //Let's just say there isn't a wikipedia entry and move along.
       error: function(xhr, status, errortxt)
       {
         clearTimeout(wikiRequestTimeout);
