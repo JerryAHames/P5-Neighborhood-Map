@@ -115,7 +115,8 @@ var ViewModel = function() {
     //Update the current location.
     self.currentLocation(loc);
     //If there is a current location, lets select it and display the info window.
-    if(loc !== null){
+    if(loc !== null
+      && loc.Marker() !== null){
       //Update the marker for the new current location.
       self.currentLocation().Marker().setIcon(selectedPin);
       self.currentLocation().Selected(true);
@@ -227,7 +228,7 @@ var ViewModel = function() {
       {
         clearTimeout(wikiRequestTimeout);
 
-        if(data[2][0] !== null && data[2][0] !== "undfined") {
+        if(data[2][0] !== null && data[2][0] != undefined) {
           loc.WikiText(data[2][0]);
         }
         else {
