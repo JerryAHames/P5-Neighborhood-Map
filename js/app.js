@@ -15,6 +15,12 @@ var Location = function(name, street, city, tags){
   this.Selected = ko.observable(false);
   this.InfoWindow = ko.observable(null);
   this.WikiText = ko.observable("");
+  this.ToolTip = ko.computed(function() {
+    var toReturn = "";
+    for(var i = 0; i < self.Tags().length; i++)
+      toReturn = toReturn + "|" + self.Tags()[i];
+    return toReturn;
+  });
 }
 /************\
 | ViewModels |
@@ -217,9 +223,9 @@ var ViewModel = function() {
 
   this.LoadWikiArticle = function(loc) {
 
-    var finalURL = "http://en.wikipedia.org/w/api.php?action=opensearch&search=" + loc.Name()
+    var finalURL = "http://en.asdfwikipedia.org/w/api.php?action=opensearch&search=" + loc.Name()
                   + "&format=json&callback=wikiCallback";
-    var wikiRequestTimeout = setTimeout(function() {$wikiElem.text("failed to get wikipedia resources");}, 8000);
+    var wikiRequestTimeout = setTimeout(function() {$loc.WikiText.text("failed to get wikipedia resources");}, 8000);
     $.ajax({
       url: finalURL,
       dataType: 'jsonp',
@@ -235,7 +241,23 @@ var ViewModel = function() {
           loc.WikiText("No Wikipedia entry available");
         }
         loc.InfoWindow().content = loc.InfoWindow().content.replace("$url$", self.GetStreetViewImage(loc)).replace("$wiki$", loc.WikiText());
-      }
+      },
+      error: function(xhr, status, errortxt)
+      {
+        clearTimeout(wikiRequestTimeout);
+
+        loc.WikiText("No Wikipedia entry available");
+
+        loc.InfoWindow().content = loc.InfoWindow().content.replace("$url$", self.GetStreetViewImage(loc)).replace("$wiki$", loc.WikiText());
+      },
+      fail: function(data)
+      {
+        clearTimeout(wikiRequestTimeout);
+
+        loc.WikiText("No Wikipedia entry available");
+
+        loc.InfoWindow().content = loc.InfoWindow().content.replace("$url$", self.GetStreetViewImage(loc)).replace("$wiki$", loc.WikiText());
+      },
     })
   };
   this.GetStreetViewImage = function(loc) {

@@ -14,7 +14,7 @@
       <div class="search-header search">
         <div class="hamburger-icon">
           <svg class="hamburger" data-bind="click: MenuClick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#000066">
-            <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z" />
+            <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"></path>
           </svg>
         </div>
         <div class="list-header">Places to Visit</div>
@@ -25,7 +25,7 @@
       </div>
       <div class="list menu search" data-bind="click: MainClick, css: {menuopen: MenuOpen}" >
         <ul class="search" data-bind="foreach: locations">
-          <li data-bind="text: Name, click: $parent.updateSelectedLocation, visible: Visible, css: {selected: Selected}"></li>
+          <li data-bind="text: Name, title: ToolTip, click: $parent.updateSelectedLocation, visible: Visible, css: {selected: Selected}" ></li>
         </ul>
       </div>
     </div>
