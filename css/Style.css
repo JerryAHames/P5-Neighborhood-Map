@@ -72,9 +72,9 @@ li.selected {
     background-color: rgba(256, 256, 256, .8);
     border-style: solid;
     border-color: #000066;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
-    border-radius: 15px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
     width: 350px;
   }
 
@@ -115,12 +115,14 @@ li.selected {
     top: 0;
     left: 0;
   }
+
   .search {
     background-color: rgb(100, 256, 256);
     background-color: rgba(256, 256, 256, .8);
     z-index: 2;
   }
-  .search ul {
+
+  .container ul {
     margin: 0;
     padding-top: 10px;
     padding-bottom: 10px;

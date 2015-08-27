@@ -35,3 +35,5 @@ The search will search the name of the location and the tags associated with eac
 * <a href="http://getbootstrap.com/css/">Bootstrap Documentation</a>
 
 * <a href="http://blog.outsharked.com/2013/05/adding-default-enter-key-handling-to.html">Knockout - Input submit on Enter Key documentation</a>
+* <a href="http://www.javascriptkit.com/dhtmltutors/cssmediaqueries4.shtml">CSS media Queries in js</a>
+* <a href="http://www.snyderplace.com/demos/collapsible.html">JQuery Collapsible</a>

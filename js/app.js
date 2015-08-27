@@ -38,7 +38,9 @@ var ViewModel = function() {
     this.currentLocation = ko.observable(null); //Setup the current location
     this.Filter = ko.observable(""); //Set up the filter
     this.MenuOpen = ko.observable(false);
-
+    this.IsMobileLayout = ko.observable(false);
+    this.$Collapsible = $('.collapsible');
+    this.$Window = $(window);
     this.geocoder = new google.maps.Geocoder(); //This is used by google maps to find the lat / long of a search.
 
     this.map = new google.maps.Map(document.getElementById('map'), { //This is the actual google maps object.
@@ -141,6 +143,9 @@ var ViewModel = function() {
             this.ApplyFilter(filter, self.locations()[i]);
         }
         self.MenuOpen(true);
+
+        //Let's open the collapsible list.
+        self.$Collapsible.collapsible('openAll');
     };
 
     //Lets apply the filter to each individual location.
@@ -216,11 +221,17 @@ var ViewModel = function() {
     //hamburger icon.
     this.MenuClick = function() {
         self.MenuOpen(!self.MenuOpen());
+        if (self.MenuOpen() !== false && self.IsMobileLayout() === true)
+            self.$Collapsible.collapsible("closeAll");
+        else
+            self.$Collapsible.collapsible("openAll");
     };
     //If this is a small screen don't show the list of locations always. If it's
     //visible we need a way to make it disappear again.
     this.MainClick = function() {
         self.MenuOpen(false);
+        if (self.IsMobileLayout() === true)
+            self.$Collapsible.collapsible("closeAll");
     };
 
     this.LoadWikiArticle = function(loc) {
@@ -265,11 +276,36 @@ var ViewModel = function() {
         });
     };
     this.GetStreetViewImage = function(loc) {
-        return 'https://maps.googleapis.com/maps/api/streetview?size=200x200&location=' + loc.Marker().position + '';
+        if (self.IsMobileLayout() === false)
+            return 'https://maps.googleapis.com/maps/api/streetview?size=200x200&location=' + loc.Marker().position + '';
+        return '';
     };
 
     //Add all the default locations.
     this.addLocations();
+
+    //Lets do some setup for the collapsible menu.
+    //If we're in the smaller, mobile layout, lets set that flag.
+    if (self.$Window.width() < 499)
+        self.IsMobileLayout(true);
+
+    //Set up the collapsible menu
+    self.$Collapsible.collapsible({
+        speed: 200,
+        defaultOpen: 'filterResults'
+    });
+    //When we hit our media query break points, switch between mobile / standard.
+    window.matchMedia("screen and (max-width: 499px)").addListener(function(mql) {
+        if (mql.matches)
+            self.IsMobileLayout(true);
+    });
+    window.matchMedia("screen and (min-width: 500px)").addListener(function(mql) {
+        if (mql.matches) {
+            self.IsMobileLayout(false);
+            self.$Collapsible.collapsible('openAll');
+        }
+    });
+
 };
 
 //As a user enhancement, lets allow the user to hit the "Enter" key from the
